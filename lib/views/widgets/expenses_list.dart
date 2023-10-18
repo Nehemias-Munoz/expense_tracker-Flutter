@@ -1,44 +1,19 @@
+import 'package:expense_tracker/models/expense_model.dart';
+import 'package:expense_tracker/views/widgets/expense_item.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 class ExpensesList extends StatelessWidget {
-  const ExpensesList({super.key});
-
+  const ExpensesList({super.key, required this.expenses});
+  final List<ExpenseModel> expenses;
   @override
   Widget build(BuildContext context) {
     return Container(
       child: ListView.builder(
-        itemCount: 4,
-        itemBuilder: (context, index) => Card(
-          child: Row(
-            children: [
-              Expanded(
-                flex: 6,
-                child: ListTile(
-                  title: Text("Gasto $index"),
-                  trailing: Text(index.toString()),
-                  subtitle: Text(DateFormat.yMMMMEEEEd()
-                      .format(DateTime.now())
-                      .toString()),
-                ),
-              ),
-              Expanded(
-                flex: 1,
-                child: IconButton(
-                  color: Colors.red,
-                  onPressed: () {
-                    showDialog(
-                      context: context,
-                      builder: (_) => AlertDialog(
-                          title: Text("Seguro desea eliminar?"),
-                          actions: [Text("Cancelar"), Text("Eliminar")]),
-                    );
-                  },
-                  icon: const Icon(Icons.delete_forever_outlined),
-                ),
-              )
-            ],
-          ),
+        itemCount: expenses.length,
+        itemBuilder: (context, i) => ExpenseItem(
+          title: expenses[i].title,
+          amount: expenses[i].amount,
+          date: expenses[i].formattedDate,
         ),
       ),
     );
