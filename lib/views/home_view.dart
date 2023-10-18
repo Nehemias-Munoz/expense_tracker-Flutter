@@ -1,3 +1,4 @@
+import 'package:expense_tracker/views/widgets/expenses_list.dart';
 import 'package:flutter/material.dart';
 
 class HomeView extends StatelessWidget {
@@ -5,9 +6,15 @@ class HomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(
-        child: Text('HomeView'),
+    return Scaffold(
+      body: Column(
+        children: [
+          Expanded(flex: 2, child: Center()),
+          Expanded(
+            flex: 4,
+            child: ExpensesList(),
+          ),
+        ],
       ),
     );
   }
