@@ -4,6 +4,8 @@ import 'package:uuid/uuid.dart';
 const uuid = Uuid();
 
 final formatter = DateFormat.yMMMMEEEEd();
+final formatterSimple = DateFormat.yMd();
+final amountFormatter = NumberFormat("###.0#", "en_US");
 
 enum Category { viaje, otro, trabajo, sueldo }
 
@@ -23,5 +25,13 @@ class ExpenseModel {
 
   String get formattedDate {
     return formatter.format(date);
+  }
+
+  String get simpleFormattedDate {
+    return formatterSimple.format(date);
+  }
+
+  String get formatterAmount {
+    return amountFormatter.format(amount);
   }
 }
