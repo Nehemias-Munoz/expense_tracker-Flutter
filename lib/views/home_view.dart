@@ -3,28 +3,37 @@ import 'package:expense_tracker/views/widgets/add_expense_form.dart';
 import 'package:expense_tracker/views/widgets/expenses_list.dart';
 import 'package:flutter/material.dart';
 
-class HomeView extends StatelessWidget {
-  const HomeView({Key? key}) : super(key: key);
+class HomeView extends StatefulWidget {
+  HomeView({Key? key}) : super(key: key);
+  List<ExpenseModel> expenses = [
+    ExpenseModel(
+        title: "Gasto",
+        amount: 19.0,
+        date: DateTime.now(),
+        category: Category.otro),
+    ExpenseModel(
+        title: "Pago",
+        amount: 23.0,
+        date: DateTime.now(),
+        category: Category.sueldo),
+    ExpenseModel(
+        title: "Recorrido casa",
+        amount: 9.0,
+        date: DateTime.now(),
+        category: Category.viaje),
+  ];
+  @override
+  State<HomeView> createState() => _HomeViewState();
+}
 
+class _HomeViewState extends State<HomeView> {
   @override
   Widget build(BuildContext context) {
-    List<ExpenseModel> expenses = [
-      ExpenseModel(
-          title: "Gasto",
-          amount: 19.0,
-          date: DateTime.now(),
-          category: Category.otro),
-      ExpenseModel(
-          title: "Pago",
-          amount: 23.0,
-          date: DateTime.now(),
-          category: Category.sueldo),
-      ExpenseModel(
-          title: "Recorrido casa",
-          amount: 9.0,
-          date: DateTime.now(),
-          category: Category.viaje),
-    ];
+    void addExpense(ExpenseModel expense) {
+      setState(() {
+        widget.expenses.add(expense);
+      });
+    }
 
     void _showAddExpenseForm() {
       showModalBottomSheet(
@@ -35,7 +44,7 @@ class HomeView extends StatelessWidget {
         builder: (_) => Padding(
           padding:
               EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-          child: AddExpenseForm(),
+          child: AddExpenseForm(onAddExpense: addExpense),
         ),
         shape:
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
@@ -61,7 +70,7 @@ class HomeView extends StatelessWidget {
           Expanded(
             flex: 4,
             child: ExpensesList(
-              expenses: expenses,
+              expenses: widget.expenses,
             ),
           ),
         ],

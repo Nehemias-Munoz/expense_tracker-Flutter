@@ -2,8 +2,8 @@ import 'package:expense_tracker/models/expense_model.dart';
 import 'package:flutter/material.dart';
 
 class AddExpenseForm extends StatefulWidget {
-  const AddExpenseForm({super.key});
-
+  const AddExpenseForm({super.key, required this.onAddExpense});
+  final void Function(ExpenseModel expense) onAddExpense;
   @override
   State<AddExpenseForm> createState() => _AddExpenseFormState();
 }
@@ -13,6 +13,8 @@ class _AddExpenseFormState extends State<AddExpenseForm> {
   final _titleInputController = TextEditingController();
   final _amountInputController = TextEditingController();
   DateTime? _selectedDate;
+  double _enteredAmount = 0.0;
+  String _enteredTitle = '';
 
   @override
   void dispose() {
@@ -52,7 +54,14 @@ class _AddExpenseFormState extends State<AddExpenseForm> {
       );
       return;
     }
-    if (_formKey.currentState!.validate()) {}
+    if (_formKey.currentState!.validate()) {
+      final newExpense = ExpenseModel(
+          title: _enteredTitle,
+          amount: _enteredAmount,
+          date: _selectedDate!,
+          category: Category.otro);
+      widget.onAddExpense(newExpense);
+    }
   }
 
   String? _amountValidator(String? value) {
@@ -61,6 +70,7 @@ class _AddExpenseFormState extends State<AddExpenseForm> {
     if (amountIsInvalid) {
       return "Please enter some valid number";
     }
+    _enteredAmount = enteredAmount;
     return null;
   }
 
@@ -68,6 +78,7 @@ class _AddExpenseFormState extends State<AddExpenseForm> {
     if (value == null || value.trim().isEmpty) {
       return "Please enter some text";
     }
+    _enteredTitle = value;
     return null;
   }
 
@@ -103,7 +114,7 @@ class _AddExpenseFormState extends State<AddExpenseForm> {
                     validator: (String? value) => _amountValidator(value),
                     decoration: const InputDecoration(
                       label: Text("Amount"),
-                      hintText: "49.0",
+                      hintText: "490",
                       border: OutlineInputBorder(),
                     ),
                     keyboardType: TextInputType.number,

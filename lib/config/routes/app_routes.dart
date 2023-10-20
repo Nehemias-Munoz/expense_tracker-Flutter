@@ -5,6 +5,6 @@ import '../../views/views.dart';
 class AppRoutes {
   static String initalRoute = "home";
   static Map<String, Widget Function(BuildContext)> routes = {
-    "home": (_) => const HomeView(),
+    "home": (_) => HomeView(),
   };
 }
