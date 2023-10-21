@@ -29,6 +29,12 @@ class HomeView extends StatefulWidget {
 class _HomeViewState extends State<HomeView> {
   @override
   Widget build(BuildContext context) {
+    void removeExpense(ExpenseModel expense) {
+      setState(() {
+        widget.expenses.remove(expense);
+      });
+    }
+
     void addExpense(ExpenseModel expense) {
       setState(() {
         widget.expenses.add(expense);
@@ -69,9 +75,14 @@ class _HomeViewState extends State<HomeView> {
           Expanded(flex: 2, child: Center()),
           Expanded(
             flex: 4,
-            child: ExpensesList(
-              expenses: widget.expenses,
-            ),
+            child: widget.expenses.isEmpty
+                ? const Center(
+                    child: Text("No expense yet, please add some one."),
+                  )
+                : ExpensesList(
+                    removeExpense: removeExpense,
+                    expenses: widget.expenses,
+                  ),
           ),
         ],
       ),

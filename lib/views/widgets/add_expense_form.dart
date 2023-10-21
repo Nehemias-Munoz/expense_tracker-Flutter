@@ -62,6 +62,8 @@ class _AddExpenseFormState extends State<AddExpenseForm> {
           category: Category.otro);
       widget.onAddExpense(newExpense);
     }
+    //Close modal after add expense
+    Navigator.pop(context);
   }
 
   String? _amountValidator(String? value) {
