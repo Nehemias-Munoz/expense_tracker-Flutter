@@ -30,9 +30,21 @@ class _HomeViewState extends State<HomeView> {
   @override
   Widget build(BuildContext context) {
     void removeExpense(ExpenseModel expense) {
+      final int index = widget.expenses.indexOf(expense);
       setState(() {
         widget.expenses.remove(expense);
       });
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: const Text("Expense deleted."),
+        duration: const Duration(seconds: 3),
+        action: SnackBarAction(
+            label: "Undo",
+            onPressed: () {
+              setState(() {
+                widget.expenses.insert(index, expense);
+              });
+            }),
+      ));
     }
 
     void addExpense(ExpenseModel expense) {
